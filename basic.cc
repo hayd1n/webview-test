@@ -50,7 +50,7 @@ int main() {
   w.bind("myBoundCallback", myBoundCallback);
 
   string path = "file:///";
-  path += getExeDirectory();
+  path += getExeDirectory().u8string();
 #if defined __APPLE__
   path += "../Resources/assets/app.html";
 #else

@@ -5,6 +5,15 @@ project(WebviewTest C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if(WIN32)
+  set(WEBVIEW2_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/libs/webview2/build/native/include)
+
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    # using GCC
+    add_link_options(-mwindows -ladvapi32 -lole32 -lshell32 -lshlwapi -luser32 -lversion)
+  endif()
+endif()
+
 if(APPLE)
   add_link_options(-framework WebKit)
 endif()
@@ -14,10 +23,14 @@ set(WEBVIEW_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/libs/webview)
 set(MAIN_SOURCES
   ${PROJECT_SOURCE_DIR}/basic.cc)
 
-add_executable(${CMAKE_PROJECT_NAME} MACOSX_BUNDLE ${MAIN_SOURCES})
+add_executable(${CMAKE_PROJECT_NAME} WIN32 MACOSX_BUNDLE ${MAIN_SOURCES})
 
 # add_executable(${CMAKE_PROJECT_NAME} ${MAIN_SOURCES})
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${WEBVIEW_INCLUDE_DIR})
+
+if(WIN32)
+  target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${WEBVIEW2_INCLUDE_DIR})
+endif()
 
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
   BUNDLE True
