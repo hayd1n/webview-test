@@ -1,0 +1,27 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Test</title>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      background-color: black;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="test" onclick="test();">Test</button>
+
+  <script>
+    async function test() {
+      let test = await myBoundCallback();
+      console.log(test);
+    };
+  </script>
+</body>
+
+</html>
